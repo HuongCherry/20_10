@@ -1,167 +1,190 @@
-
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phong bì yêu thương 💌</title>
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;min-height:100vh;overflow:hidden;
-  display:flex;justify-content:center;align-items:center;
-  font-family:Georgia,serif;
-  background:radial-gradient(circle,#6f456e,#25162f 80%);
-}
-#petals{position:fixed;inset:0;pointer-events:none;overflow:hidden}
-.petal{position:absolute;top:-40px;animation:fall linear infinite}
-@keyframes fall{
-  to{transform:translate3d(70px,110vh,0) rotate(720deg)}
-}
-.scene{
-  width:min(88vw,370px);height:440px;
-  position:relative;perspective:1000px;
-}
-.title{
-  position:absolute;top:0;width:100%;text-align:center;
-  color:#ffe2ee;font-size:25px;line-height:1.5;
-  text-shadow:0 2px 15px #ff8ab5;
-}
-.hint{font-size:14px;color:#fbd9e8}
-.envelope{
-  position:absolute;left:0;bottom:45px;width:100%;height:220px;
-  cursor:pointer;filter:drop-shadow(0 18px 20px #12081988);
-}
-.env-back{
-  position:absolute;inset:0;
-  background:#e9a6c2;border-radius:5px;
-}
-.letter{
-  position:absolute;z-index:2;left:5%;bottom:12px;
-  width:90%;height:195px;padding:18px 15px;
-  text-align:center;color:#973c63;
-  background:linear-gradient(145deg,#fffaf7,#ffe5ee);
-  border-radius:8px;overflow:auto;
-  transition:transform 1.3s cubic-bezier(.2,.8,.2,1),
-             height 1s,opacity .5s;
-  box-shadow:0 0 12px #7c315322;
-}
-.letter h2{font-size:25px;margin:5px 0 12px}
-.letter p{font-size:16px;line-height:1.65;white-space:pre-line}
-.letter .rose{font-size:32px}
-.flap{
-  position:absolute;z-index:5;left:0;top:0;width:100%;height:120px;
-  background:#f7bfd4;clip-path:polygon(0 0,100% 0,50% 100%);
-  transform-origin:top;transition:transform .8s ease;
-}
-.pocket{
-  position:absolute;z-index:4;inset:0;
-  background:#d979a4;
-  clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);
-}
-.pocket:after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(135deg,#f3b4cf,#c75e8d);
-  clip-path:polygon(0 100%,0 0,50% 55%,100% 0,100% 100%);
-}
-.seal{
-  position:absolute;z-index:7;left:50%;top:98px;
-  transform:translateX(-50%);
-  width:49px;height:49px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#ffedf4,#bd376d);
-  display:grid;place-items:center;font-size:25px;
-  box-shadow:0 3px 9px #77203c77;
-  transition:opacity .3s;
-}
-.envelope.open .flap{transform:rotateX(180deg);z-index:1}
-.envelope.open .seal{opacity:0;pointer-events:none}
-.envelope.open .letter{
-  height:365px;transform:translateY(-115px);
-  z-index:6;overflow:auto;
-}
-.envelope.open .pocket{z-index:4}
-.envelope.open{cursor:default}
-.envelope.open .letter{box-shadow:0 0 30px #ffb7d777}
-.opened-message{display:none}
-.envelope.open .opened-message{display:block}
-.envelope.open .front-message{display:none}
-.front-message{
-  position:absolute;z-index:8;bottom:18px;width:100%;
-  text-align:center;color:white;font-size:17px;
-  pointer-events:none;text-shadow:0 1px 4px #793653;
-}
-.actions{
-  position:absolute;bottom:0;width:100%;text-align:center;
-}
-button{
-  border:1px solid #ffcade;border-radius:30px;padding:10px 20px;
-  background:#fff0f6;color:#9c3765;cursor:pointer;font-size:15px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bức thư dành cho bạn 🌸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Khu vực phong bì thư */
+        .envelope-container {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-container:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope {
+            width: 280px;
+            height: 180px;
+            background: #ff4757;
+            position: relative;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Nắp phong bì */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #e84118;
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            z-index: 3;
+        }
+
+        /* Khi mở phong bì: lật nắp lên */
+        .envelope.open::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-flap-text {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 4;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Giao diện bức thư bên trong phong bì */
+        #letter-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            width: 320px;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 2;
+        }
+
+        #letter-content.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+            z-index: 5;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 36px;
+            color: #ff4757;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Hiệu ứng hoa rơi */
+        .falling-flower {
+            position: absolute;
+            top: -10%;
+            font-size: 24px;
+            animation: fall linear infinite;
+            z-index: 0;
+            user-select: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id="petals"></div>
 
-<div class="scene">
-  <div class="title">
-    💗 Gửi tặng bạn 💗
-    <div class="hint" id="hint">Chạm vào phong bì để mở nhé!</div>
-  </div>
-
-  <div class="envelope" id="env" onclick="openEnvelope()">
-    <div class="env-back"></div>
-
-    <div class="letter" id="letter">
-      <div class="front-message">💌 Một món quà nhỏ</div>
-      <div class="opened-message">
-        <div class="rose">🌹🌸🌹</div>
-        <h2>Chúc bạn luôn hạnh phúc!</h2>
-        <p id="wish">Chúc bạn mỗi ngày đều ngập tràn niềm vui, luôn bình an, mạnh khoẻ và gặp nhiều điều tốt đẹp💖</p>
-          <p id="wish">Mong mọi ước mơ của bạn đều trở thành hiện thực</p>
-        <div class="rose">💐💗💐</div>
-      </div>
+    <!-- Phong bì thư bấm vào để mở -->
+    <div class="envelope-container" id="envelopeBox" onclick="openEnvelope()">
+        <div class="envelope" id="envelopeElem">
+            <div class="envelope-flap-text">Chạm để mở thư 💌</div>
+        </div>
     </div>
 
-    <div class="flap"></div>
-    <div class="pocket"></div>
-    <div class="seal">❤</div>
-  </div>
+    <!-- Bức thư chứa lời chúc hiện ra khi mở phong bì -->
+    <div id="letter-content">
+        <h1>Gửi Người Đặc Biệt!</h1>
+        <p>Chúc bạn một ngày thật tuyệt vời, ngập tràn niềm vui, luôn xinh đẹp và gặp nhiều may mắn trên con đường phía trước nhé! 💖🌷✨</p>
+    </div>
 
-  <div class="actions">
-    <button onclick="resetEnvelope(event)">↻ Đóng phong bì</button>
-  </div>
-</div>
+    <script>
+        function openEnvelope() {
+            const envelopeElem = document.getElementById('envelopeElem');
+            const envelopeBox = document.getElementById('envelopeBox');
+            const letterContent = document.getElementById('letter-content');
 
-<script>
-const env=document.getElementById('env');
-let opened=false;
+            // Mở nắp phong bì
+            envelopeElem.classList.add('open');
 
-function openEnvelope(){
-  if(opened)return;
-  opened=true;
-  env.classList.add('open');
-  document.getElementById('hint').textContent='Một lời chúc dành riêng cho bạn 💕';
-}
-function resetEnvelope(e){
-  e.stopPropagation();
-  opened=false;
-  env.classList.remove('open');
-  document.getElementById('hint').textContent='Chạm vào phong bì để mở nhé!';
-}
+            // Sau một khoảnh khắc ngắn, ẩn phong bì và trượt thư ra
+            setTimeout(() => {
+                envelopeBox.style.display = 'none';
+                letterContent.classList.add('show');
+                createFallingFlowers();
+            }, 500);
+        }
 
-const area=document.getElementById('petals');
-const flowers=['🌸','🌷','🌹','💮','💕','🌺'];
-for(let i=0;i<35;i++){
-  const p=document.createElement('span');
-  p.className='petal';
-  p.textContent=flowers[Math.floor(Math.random()*flowers.length)];
-  p.style.left=Math.random()*100+'%';
-  p.style.fontSize=(13+Math.random()*16)+'px';
-  p.style.animationDuration=(6+Math.random()*10)+'s';
-  p.style.animationDelay=(-Math.random()*15)+'s';
-  area.appendChild(p);
-}
-</script>
+        function createFallingFlowers() {
+            const flowers = ['🌸', '🌷', '🌺', '💖', '✨'];
+            setInterval(() => {
+                const flower = document.createElement('div');
+                flower.classList.add('falling-flower');
+                flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+                flower.style.left = Math.random() * 100 + 'vw';
+                flower.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                flower.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                
+                document.body.appendChild(flower);
+
+                setTimeout(() => {
+                    flower.remove();
+                }, 5000);
+            }, 300);
+        }
+    </script>
 </body>
 </html>
