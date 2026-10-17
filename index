@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thiệp hoa rơi - Gửi yêu thương</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-family:Georgia,"Times New Roman",serif;
+  background:radial-gradient(ellipse at center,#382344,#160f26 75%);
+  color:white;
+}
+#flowers{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.petal{
+  position:absolute;top:-50px;
+  animation:fall linear infinite;
+  opacity:.85;filter:drop-shadow(0 0 5px #ffb8d0);
+}
+@keyframes fall{
+  0%{transform:translateY(-5vh) rotate(0deg) translateX(0)}
+  50%{transform:translateY(50vh) rotate(300deg) translateX(45px)}
+  100%{transform:translateY(110vh) rotate(700deg) translateX(-35px)}
+}
+.glow{
+  position:fixed;width:330px;height:330px;border-radius:50%;
+  background:#fa6da6;filter:blur(120px);opacity:.17;
+}
+.card{
+  position:relative;z-index:2;width:min(88%,430px);
+  padding:35px 25px;border:1px solid #edb8cc;
+  border-radius:20px;text-align:center;
+  background:linear-gradient(145deg,#fff0f4,#f8d9e7);
+  color:#74304f;
+  box-shadow:0 0 50px #ff8bb955,0 20px 70px #0006;
+  animation:appear 1.4s ease;
+}
+@keyframes appear{
+  from{opacity:0;transform:translateY(30px) scale(.9)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.flower{font-size:66px;animation:sway 3s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(9deg) scale(1.06)}}
+h1{font-size:clamp(27px,7vw,38px);margin:12px 0;color:#a32961}
+.line{width:75px;height:2px;background:#ce6995;margin:20px auto}
+.message{font-size:18px;line-height:1.8;white-space:pre-line}
+button{
+  margin-top:22px;border:0;border-radius:30px;
+  padding:13px 24px;background:#b73570;color:white;
+  font-size:16px;cursor:pointer;box-shadow:0 5px 15px #9c225344;
+}
+button:hover{background:#8f2054;transform:translateY(-2px)}
+#letter{display:none}
+#letter.show{display:block;animation:appear 1s ease}
+.hint{font-size:13px;opacity:.7;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div id="flowers"></div>
+
+<main class="card">
+  <div class="flower">🌸</div>
+  <p>✦ MỘT MÓN QUÀ NHỎ ✦</p>
+  <h1>Gửi người thương</h1>
+  <div class="line"></div>
+  <p class="message">Có những điều thật đẹp
+không cần nói thành lời,
+chỉ cần một chút dịu dàng
+cũng đủ làm tim mỉm cười.</p>
+  <button id="openBtn" onclick="openLetter()">💌 Mở thiệp yêu thương</button>
+  <div id="letter">
+    <div class="line"></div>
+    <p class="message" id="letterText"></p>
+    <div class="flower">💗</div>
+    <button onclick="changeMessage()">🌷 Gửi thêm yêu thương</button>
+  </div>
+  <p class="hint">♡ Chạm để mở món quà ♡</p>
+</main>
+
+<script>
+const garden=document.getElementById('flowers');
+const petals=['🌸','🌺','🌷','💮','🌼','🩷','🌹'];
+
+for(let i=0;i<32;i++){
+  const p=document.createElement('span');
+  p.className='petal';
+  p.textContent=petals[Math.floor(Math.random()*petals.length)];
+  p.style.left=Math.random()*100+'%';
+  p.style.fontSize=(12+Math.random()*20)+'px';
+  p.style.animationDuration=(7+Math.random()*12)+'s';
+  p.style.animationDelay=(-Math.random()*18)+'s';
+  garden.appendChild(p);
+}
+
+const messages=[
+  'Mong mỗi ngày của bạn đều có niềm vui,\\nnhững nụ cười và thật nhiều yêu thương.\\n\\nChúc bạn luôn bình an và hạnh phúc! 🌷',
+  'Cảm ơn vì đã xuất hiện trong cuộc sống này.\\nChúc những điều dịu dàng nhất\\nluôn tìm đến bên bạn. 💗',
+  'Mong bạn luôn rạng rỡ như những bông hoa,\\nấm áp như ánh nắng và hạnh phúc\\ntrên hành trình của riêng mình. 🌸'
+];
+let current=0;
+
+function openLetter(){
+  document.getElementById('letter').classList.add('show');
+  document.getElementById('letterText').textContent=messages[current];
+  document.getElementById('openBtn').style.display='none';
+}
+function changeMessage(){
+  current=(current+1)%messages.length;
+  document.getElementById('letterText').textContent=messages[current];
+}
+</script>
+</body>
+</html>
